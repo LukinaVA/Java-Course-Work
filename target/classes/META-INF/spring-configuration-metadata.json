@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.javamaster.spring_crud.security.jwt.JwtProperties",
+      "sourceType": "com.javamaster.spring_crud.security.jwt.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.valid-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.javamaster.spring_crud.security.jwt.JwtProperties",
+      "defaultValue": 1800000
+    }
+  ],
+  "hints": []
+}

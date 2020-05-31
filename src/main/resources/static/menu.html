@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Меню</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: lightcoral;
+            overflow: hidden;
+        }
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        h1 {
+            color: bisque;
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        p {
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        input {
+            width: 300px;
+        }
+        button {
+            background-color: brown;
+            color: bisque;
+            border: none;
+            width: 300px;
+            padding: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1>Меню</h1>
+        <p><button onclick="location.href='employees.html'">Таблица служащих</button></p>
+        <p><button onclick="location.href='departments.html'">Таблица отделов</button></p>
+        <p><button onclick="location.href='projects.html'">Таблица проектов</button></p>
+        <p><button onclick="signOut()">Выход</button></p>
+    </div>
+
+
+<script>
+    function signOut() {
+        localStorage.clear();
+        window.location.href = "./index.html";
+    }
+</script>
+
+</body>
+</html>

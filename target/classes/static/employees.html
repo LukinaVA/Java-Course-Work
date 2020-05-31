@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сотрудники</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: lightcoral;
+        }
+        h1 {
+            color: bisque;
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        p {
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        select {
+            width: 200px;
+        }
+        input {
+            width: 200px;
+            border-color: bisque;
+        }
+        button {
+            background-color: brown;
+            color: bisque;
+            border: none;
+            width: 200px;
+            padding: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        form {
+            margin-top: 10px;
+        }
+        div {
+            align-content: center;
+            width: 1350px;
+            height: 290px;
+            overflow: auto;
+        }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid bisque;
+            text-align: left;
+            padding: 5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: bisque;
+        }
+    </style>
+</head>
+<body>
+<h1>Таблица служащих</h1>
+<div>
+    <table id="employees">
+
+    </table>
+</div>
+<script>
+    function loadDep() {
+        let department = document.getElementById("department");
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let departments = JSON.parse(this.responseText);
+                for (let i = 0; i < departments.length; i++) {
+                    let dep = departments[i].name;
+                    console.log(dep);
+                    department.options[i] = new Option(dep, dep);
+                }
+            }
+        };
+
+        xhttp.open("GET", "http://localhost:8080/departments/list", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("Authentication"));
+        xhttp.send();
+    }
+</script>
+<form action="#">
+    <p>
+        <input id="firstName" placeholder="Имя">
+        <input id="patherName" placeholder="Отчество">
+        <input id="lastName" placeholder="Фамилия">
+        <input id="position" placeholder="Должность">
+        <input id="salary" placeholder="Зарплата">
+        <select id="department"><script>loadDep();</script></select>
+    </p>
+    <p><button onclick="addEmployee()">Добавить сотрудника</button></p>
+</form>
+<p><input id="searchById" placeholder="ID"></p>
+<p><button onclick="searchById()">Поиск по ID</button></p>
+
+<p><button onclick="location.href='menu.html'">Назад</button></p>
+<p><button onclick="signOut()">Выход</button></p>
+
+<script>
+    function searchById() {
+        let id = document.getElementById("searchById").value;
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let employee = JSON.parse(this.responseText);
+                let html = '<tr>\n' +
+                    '        <th>ID</th>\n' +
+                    '        <th>Имя</th>\n' +
+                    '        <th>Отчество</th>\n' +
+                    '        <th>Фамилия</th>\n' +
+                    '        <th>Должность</th>\n' +
+                    '        <th>Зарплата</th>\n' +
+                    '        <th>Удалить</th>\n' +
+                    '    </tr>';
+
+                html = html + '<tr><td>' + employee.id + '</td>\n' +
+                    '        <td>' + employee.firstName + '</td>\n' +
+                    '        <td>' + employee.patherName + '</td>\n' +
+                    '        <td>' + employee.lastName + '</td>' +
+                    '        <td>' + employee.position + '</td>' +
+                    '        <td>' + employee.salary + '</td>' +
+                    '        <td><button onclick="deleteEmployee(' + employee.id + ')">Удалить</button></td></tr>';
+
+                document.getElementById("employees").innerHTML = html;
+            }
+        };
+
+        xhttp.open("GET", "http://localhost:8080/employees/list/" + id, true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("Authentication"));
+        xhttp.send();
+    }
+
+    function deleteEmployee(id) {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status >= 400) {
+                    alert("Отказ в доступе!");
+                }
+                window.location.reload();
+            }
+        };
+
+        xhttp.open("DELETE", "http://localhost:8080/employees/delete/" + id, true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("Authentication"));
+        xhttp.send();
+    }
+
+    function addEmployee() {
+        let firstName = document.getElementById("firstName").value;
+        let patherName = document.getElementById("patherName").value;
+        let lastName = document.getElementById("lastName").value;
+        let position = document.getElementById("position").value;
+        let salary = document.getElementById("salary").value;
+
+        let department = document.getElementById("department").value;
+
+        let xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status >= 400) {
+                    alert("Отказ в доступе!");
+                }
+            }
+        };
+
+        xmlhttp.open("POST", "http://localhost:8080/employees/addEmployee");
+        xmlhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("Authentication"));
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({firstName: firstName, patherName: patherName, lastName: lastName,
+            position: position, salary: salary, department: department}));
+        loadEmployees();
+    }
+
+    function loadEmployees() {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let employees = JSON.parse(this.responseText);
+                let html = '<tr>\n' +
+                    '        <th>ID</th>\n' +
+                    '        <th>Имя</th>\n' +
+                    '        <th>Отчество</th>\n' +
+                    '        <th>Фамилия</th>\n' +
+                    '        <th>Должность</th>\n' +
+                    '        <th>Зарплата</th>\n' +
+                    '        <th>Удалить</th>\n' +
+                    '    </tr>';
+                for (let i = 0; i < employees.length; i++) {
+                    let employee = employees[i];
+                    html = html + '<tr><td>' + employee.id + '</td>\n' +
+                        '        <td>' + employee.firstName + '</td>\n' +
+                        '        <td>' + employee.patherName + '</td>\n' +
+                        '        <td>' + employee.lastName + '</td>' +
+                        '        <td>' + employee.position + '</td>' +
+                        '        <td>' + employee.salary + '</td>' +
+                        '        <td><button onclick="deleteEmployee(' + employee.id + ')">Удалить</button></td></tr>';
+
+                }
+                document.getElementById("employees").innerHTML = html;
+            }
+        };
+
+        xhttp.open("GET", "http://localhost:8080/employees/list", true);
+        xhttp.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("Authentication"));
+        xhttp.send();
+    }
+
+    function signOut() {
+        localStorage.clear();
+        window.location.href = "./index.html";
+    }
+    loadEmployees();
+</script>
+</body>
+</html>

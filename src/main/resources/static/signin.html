@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Авторизация</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: lightcoral;
+            overflow: hidden;
+        }
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        h1 {
+            color: bisque;
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        p {
+            width: 100%;
+            margin: 0 auto 15px;
+            text-align: center;
+        }
+        input {
+            width: 300px;
+        }
+        button {
+            background-color: brown;
+            color: bisque;
+            border: none;
+            width: 300px;
+            padding: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <div>
+        <h1>Авторизация</h1>
+        <p><input id="userName" class="textfield" type="text" placeholder="Имя"></p>
+        <p><input id="password" class="textfield" type="password" placeholder="Пароль"></p>
+        <p><button onclick=signIn()>Войти</button></p>
+        <p><button onclick="history.back();">Назад</button></p>
+    </div>
+
+    <script>
+        function signIn() {
+            let username = document.getElementById("userName").value;
+            let pass = document.getElementById("password").value;
+
+                fetch("http://localhost:8080/auth/signIn", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: username,
+                        password: pass
+                    })
+                })
+                    .then( (response) => {
+                        if(response.status >= 400){
+                            return Promise.reject();
+                        }
+                        return response.json();
+                    }).then( (j) => JSON.stringify(j))
+                    .then( (data) => JSON.parse(data))
+                    .then( (obj) => localStorage.setItem("Authentication", obj["token"]))
+                    .then( () => window.location.href = "menu.html" )
+                    .catch( () => alert("Пользователь не найден. Пожалуйста зарегестрируйтесь."));
+        }
+    </script>
+
+</main>
+</body>
+</html>
