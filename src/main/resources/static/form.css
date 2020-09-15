@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form__name,
+.form__pass {
+    width: 40%;
+    padding: .4em;
+    margin: .5em auto;
+
+    border: 2px solid #521655;
+    border-radius: .5em;
+}

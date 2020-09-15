@@ -1,51 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <title>Хо4у За4ёт</title>
-    <style>
-        body {
-            background-color: lightcoral;
-            overflow: hidden;
-        }
-        div {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            min-height: 100vh;
-            position: relative;
-        }
-        h1 {
-            color: bisque;
-            width: 100%;
-            margin: 0 auto 10px;
-            text-align: center;
-        }
-        p {
-            width: 100%;
-            margin: 0 auto 10px;
-            text-align: center;
-        }
-        input {
-            background-color: brown;
-            color: bisque;
-            border: none;
-            box-sizing: border-box;
-            width: 400px;
-            padding: 15px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
-<body>
-<main>
-    <div>
-        <h1>Бухгалтерия фирмы ООО «Хо4у За4ёт»</h1>
-        <p><input value="Авторизироваться" type="button" onclick="location.href='signin.html'" /></p>
-        <p><input value="Зарегистрироваться" type="button" onclick="location.href='signup.html'" /></p>
-    </div>
-</main>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Хо4у За4ёт</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="menu.css"/>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="menu">
+                <h1 class="menu__title">Бухгалтерия фирмы<br>ООО «Хо4у За4ёт»</h1>
+                <input class="button" value="Авторизироваться" type="button" onclick="location.href='signin.html'"/>
+                <input class="button" value="Зарегистрироваться" type="button" onclick="location.href='signup.html'"/>
+            </div>
+        </div>
+
+    </body>
+
 </html>

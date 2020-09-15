@@ -1,0 +1,13 @@
+.info__table {
+    border-collapse: collapse;
+    width: 100%;
+
+    background-color: #a949b4;
+    color: #521655;
+    font-size: .5em;
+}
+
+.info__table td, th {
+    text-align: left;
+    padding: 5px;
+}

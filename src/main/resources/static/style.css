@@ -1,0 +1,37 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #b1a6ee;
+    color: #a949b4;
+
+    font-family: 'Russo One', sans-serif;
+    font-size: 30px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 .5em;
+
+    text-align: center;
+}
+
+.button {
+    width: 12em;
+    padding: .25em;
+    margin: .5em auto;
+
+    background-color: #a949b4;
+    color: #521655;
+    border: 2px solid #a949b4;
+    border-radius: .2em;
+
+    font-family: inherit;
+    font-size: .5em;
+}
