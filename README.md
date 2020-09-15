@@ -1,4 +1,6 @@
 # CourseWork
+SPbPU / Spring 2020 / Java
+
 Клиент-серверное приложение.
 
 Сервер:
